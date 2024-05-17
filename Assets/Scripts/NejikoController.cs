@@ -18,7 +18,7 @@ public class NejikoController : MonoBehaviour
     public float speedZ;
     public float speedX;
     public float speedJump;
-    public float accelerationZ;
+    public float accelerationZ; // 前進加速度のパラメータ
 
     void Start()
     {
@@ -36,37 +36,11 @@ public class NejikoController : MonoBehaviour
 
         // 徐々に加速しZ方向に常に前進させる
         float acceleratedZ = moveDirection.z + (accelerationZ * Time.deltaTime);
-        moveDirection.z = Mathf.Clamp(acceleratedZ, 0, speedZ);
+        moveDirection.z = Mathf.Clamp(acceleratedZ, 0, speedZ); // ある一定のスピードに達したらそれ以上スピードUPしない
 
         // x方向は目標のポジションまでの差分の割合で速度を計算
         float ratioX = (targetLane * LaneWidth - transform.position.x) / LaneWidth;
         moveDirection.x = ratioX * speedX;
-
-        // // キャラが接地しているか
-        // if (controller.isGrounded)
-        // {
-        //     // ↑キーを押下
-        //     if (Input.GetAxis("Vertical") > 0.0f)
-        //     {
-        //         moveDirection.z = Input.GetAxis("Vertical") * speedZ;
-        //     }
-        //     // ↓キーを押下
-        //     else
-        //     {
-        //         moveDirection.z = 0;
-        //     }
-
-        //     // ← or → キー押下
-        //     transform.Rotate(0, Input.GetAxis("Horizontal") * 3, 0);
-
-        //     // スペースキー押下
-        //     if (Input.GetButton("Jump"))
-        //     {
-        //         moveDirection.y = speedJump;
-        //         // アニメータの「jump」を実行
-        //         animator.SetTrigger("jump");
-        //     }
-        // }
 
         // 重力分の力を毎フレーム追加
         moveDirection.y -= gravity * Time.deltaTime;
